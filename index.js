@@ -58,7 +58,20 @@ async function run() {
         })
 
         // update
-        // app.put(`http://localhost:5000/coffee/662b4297d3a59f458b54fdda`)
+        app.put(`/coffee/:id`, async(req,res)=>{
+            const id = req.params.id;
+            const filter = {_id: new ObjectId(id)};
+            const options = {upsert : true};
+            const updatedCoffee = req.body;
+            const coffee = {
+                $set : {
+                   name : updatedCoffee.name
+                }
+            }
+
+            const result = await coffeeCollection.updateOne(filter, coffee, options)
+            res.send(result)
+        })
 
 
         // delete
